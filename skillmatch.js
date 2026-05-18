@@ -24,10 +24,7 @@ class Vaga {
 
   exibirDetalhes() {
     return `Empresa: ${this.empresa}
-        Cargo: ${this.cargo}
-        Modalidade: ${this.modalidade}
-        Salário: R$${this.salario}
-        Prioridade: ${this.prioridade}`;
+        Cargo: ${this.cargo}`;
   }
 }
 
@@ -68,3 +65,33 @@ const vagas = [
     "Alta",
   ),
 ];
+
+function calcularCompatibilidade(candidato, vaga) {
+  const habilidadesEncontradas = vaga.requisitos.filter((requisito) =>
+    candidato.habilidades.includes(requisito),
+  );
+
+  const habilidadesFaltantes = vaga.requisitos.filter(
+    (requisito) => !candidato.habilidades.includes(requisito),
+  );
+
+  const percentual =
+    (habilidadesEncontradas.length / vaga.requisitos.length) * 100;
+
+  let classificacao;
+
+  if (percentual >= 80) {
+    classificacao = "Alta compatibilidade";
+  } else if (percentual >= 50) {
+    classificacao = "Média compatibilidade";
+  } else {
+    classificacao = "Baixa compatibilidade";
+  }
+
+  return {
+    habilidadesEncontradas,
+    habilidadesFaltantes,
+    percentual,
+    classificacao,
+  };
+}
