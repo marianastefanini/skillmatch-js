@@ -41,7 +41,7 @@ const vagas = [
     1,
     "TechStart",
     "Desenvolvedor Front-End Júnior",
-    ["HTML", "CSS", "JavaScript", "GitHub"],
+    ["HTML", "CSS", "JavaScript", "Callback", "Async/Await"],
     2800,
     "Remoto",
     "Alta",
@@ -94,4 +94,23 @@ function calcularCompatibilidade(candidato, vaga) {
     percentual,
     classificacao,
   };
+}
+
+for (let vaga of vagas) {
+  const resultado = calcularCompatibilidade(candidato, vaga);
+
+  const atendeTodos = vaga.requisitos.every((requisito) =>
+    candidato.habilidades.includes(requisito),
+  );
+
+  const recomendacao = atendeTodos
+    ? "Você atende todos os requisitos da vaga!"
+    : `Para aumentar sua compatibilidade com essa vaga, priorize estudar ${resultado.habilidadesFaltantes.join(", ")}.`;
+
+  console.log(`${vaga.exibirDetalhes()}
+    Compatibilidade: ${resultado.percentual}%
+    Habilidades Encontradas: ${resultado.habilidadesEncontradas.join(", ")}
+    Classificação: ${resultado.classificacao}
+    Para essa vaga faltam as habilidades: ${resultado.habilidadesFaltantes.join(", ")}
+    Recomendação de Estudo: ${recomendacao}`);
 }
