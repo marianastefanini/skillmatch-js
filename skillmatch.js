@@ -24,7 +24,7 @@ class Vaga {
 
   exibirDetalhes() {
     return `Empresa: ${this.empresa}
-        Cargo: ${this.cargo}`;
+    Cargo: ${this.cargo}`;
   }
 }
 
@@ -96,21 +96,40 @@ function calcularCompatibilidade(candidato, vaga) {
   };
 }
 
-for (let vaga of vagas) {
-  const resultado = calcularCompatibilidade(candidato, vaga);
+function exibirAnalise(candidato, vagas) {
+  for (let vaga of vagas) {
+    const resultado = calcularCompatibilidade(candidato, vaga);
 
-  const atendeTodos = vaga.requisitos.every((requisito) =>
-    candidato.habilidades.includes(requisito),
-  );
+    const atendeTodos = vaga.requisitos.every((requisito) =>
+      candidato.habilidades.includes(requisito),
+    );
 
-  const recomendacao = atendeTodos
-    ? "Você atende todos os requisitos da vaga!"
-    : `Para aumentar sua compatibilidade com essa vaga, priorize estudar ${resultado.habilidadesFaltantes.join(", ")}.`;
+    const recomendacao = atendeTodos
+      ? "Você atende todos os requisitos da vaga!"
+      : `Para aumentar sua compatibilidade com essa vaga, priorize estudar ${resultado.habilidadesFaltantes.join(", ")}.`;
 
-  console.log(`${vaga.exibirDetalhes()}
+    console.log(`${vaga.exibirDetalhes()}
     Compatibilidade: ${resultado.percentual}%
     Habilidades Encontradas: ${resultado.habilidadesEncontradas.join(", ")}
     Classificação: ${resultado.classificacao}
     Para essa vaga faltam as habilidades: ${resultado.habilidadesFaltantes.join(", ")}
     Recomendação de Estudo: ${recomendacao}`);
+  }
 }
+
+function encontrarVaga(candidato, vagas) {
+  const melhorVaga = vagas.reduce((melhor, atual) =>
+    calcularCompatibilidade(candidato, atual).percentual >
+    calcularCompatibilidade(candidato, melhor).percentual
+      ? atual
+      : melhor,
+  );
+
+  const resultado = calcularCompatibilidade(candidato, melhorVaga);
+
+  console.log(`Vaga mais compatível: ${melhorVaga.exibirDetalhes()}
+  Compatibilidade: ${resultado.percentual}%`);
+}
+
+exibirAnalise(candidato, vagas);
+encontrarVaga(candidato, vagas);
