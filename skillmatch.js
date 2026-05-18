@@ -23,8 +23,8 @@ class Vaga {
   }
 
   exibirDetalhes() {
-    return `Empresa: ${this.empresa}
-    Cargo: ${this.cargo}`;
+    return `Empresa: ${this.empresa} 
+  Cargo: ${this.cargo}`;
   }
 }
 
@@ -109,11 +109,11 @@ function exibirAnalise(candidato, vagas) {
       : `Para aumentar sua compatibilidade com essa vaga, priorize estudar ${resultado.habilidadesFaltantes.join(", ")}.`;
 
     console.log(`${vaga.exibirDetalhes()}
-    Compatibilidade: ${resultado.percentual}%
-    Habilidades Encontradas: ${resultado.habilidadesEncontradas.join(", ")}
-    Classificação: ${resultado.classificacao}
-    Para essa vaga faltam as habilidades: ${resultado.habilidadesFaltantes.join(", ")}
-    Recomendação de Estudo: ${recomendacao}`);
+  Compatibilidade: ${resultado.percentual}%
+  Habilidades Encontradas: ${resultado.habilidadesEncontradas.join(", ")}
+  Classificação: ${resultado.classificacao}
+  Para essa vaga faltam as habilidades: ${resultado.habilidadesFaltantes.join(", ")}
+  Recomendação de Estudo: ${recomendacao}`);
   }
 }
 
@@ -127,9 +127,28 @@ function encontrarVaga(candidato, vagas) {
 
   const resultado = calcularCompatibilidade(candidato, melhorVaga);
 
-  console.log(`Vaga mais compatível: ${melhorVaga.exibirDetalhes()}
+  console.log(`Vaga mais compatível: 
+  ${melhorVaga.exibirDetalhes()}
   Compatibilidade: ${resultado.percentual}%`);
 }
 
-exibirAnalise(candidato, vagas);
-encontrarVaga(candidato, vagas);
+function buscarVagas() {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(vagas);
+    }, 1000);
+  });
+}
+
+async function iniciarSistema() {
+  console.log("Carregando vagas...");
+
+  const vagasCarregadas = await buscarVagas();
+
+  console.log("Vagas carregadas com sucesso. Análise iniciada.");
+
+  exibirAnalise(candidato, vagasCarregadas);
+  encontrarVaga(candidato, vagasCarregadas);
+}
+
+iniciarSistema();
