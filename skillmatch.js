@@ -96,7 +96,7 @@ function calcularCompatibilidade(candidato, vaga) {
   };
 }
 
-function exibirAnalise(candidato, vagas) {
+function exibirAnalise(candidato, vagas, callback) {
   for (let vaga of vagas) {
     const resultado = calcularCompatibilidade(candidato, vaga);
 
@@ -108,13 +108,15 @@ function exibirAnalise(candidato, vagas) {
       ? "Você atende todos os requisitos da vaga!"
       : `Para aumentar sua compatibilidade com essa vaga, priorize estudar ${resultado.habilidadesFaltantes.join(", ")}.`;
 
-    console.log(`${vaga.exibirDetalhes()}
+  console.log(`${vaga.exibirDetalhes()}
   Compatibilidade: ${resultado.percentual}%
   Habilidades Encontradas: ${resultado.habilidadesEncontradas.join(", ")}
   Classificação: ${resultado.classificacao}
   Para essa vaga faltam as habilidades: ${resultado.habilidadesFaltantes.join(", ")}
   Recomendação de Estudo: ${recomendacao}`);
   }
+
+  callback()
 }
 
 function encontrarVaga(candidato, vagas) {
@@ -130,6 +132,8 @@ function encontrarVaga(candidato, vagas) {
   console.log(`Vaga mais compatível: 
   ${melhorVaga.exibirDetalhes()}
   Compatibilidade: ${resultado.percentual}%`);
+
+  console.log(`${candidato.nome}, sua análise foi finalizada. Revise suas habilidades faltantes e atualize seu plano de estudos.`);
 }
 
 function buscarVagas() {
@@ -147,8 +151,7 @@ async function iniciarSistema() {
 
   console.log("Vagas carregadas com sucesso. Análise iniciada.");
 
-  exibirAnalise(candidato, vagasCarregadas);
-  encontrarVaga(candidato, vagasCarregadas);
+  exibirAnalise(candidato, vagasCarregadas, encontrarVaga);
 }
 
 iniciarSistema();
