@@ -23,7 +23,7 @@ class Vaga {
   }
 
   exibirDetalhes() {
-    return `Empresa: ${this.empresa} 
+    return `Empresa: ${this.empresa}
   Cargo: ${this.cargo}`;
   }
 }
@@ -96,27 +96,45 @@ function calcularCompatibilidade(candidato, vaga) {
   };
 }
 
+function contadorAnalises() {
+  let total = 0;
+
+  return function () {
+    total++;
+    return total;
+  };
+}
+
+const contarAnalise = contadorAnalises();
+
 function exibirAnalise(candidato, vagas, callback) {
   for (let vaga of vagas) {
     const resultado = calcularCompatibilidade(candidato, vaga);
+
+    const habilidadesFalta =
+      resultado.habilidadesFaltantes.length === 0
+        ? "Você atende todos os requisitos da vaga!"
+        : resultado.habilidadesFaltantes.join(", ");
 
     const atendeTodos = vaga.requisitos.every((requisito) =>
       candidato.habilidades.includes(requisito),
     );
 
     const recomendacao = atendeTodos
-      ? "Você atende todos os requisitos da vaga!"
+      ? "Nenhuma habilidade faltante."
       : `Para aumentar sua compatibilidade com essa vaga, priorize estudar ${resultado.habilidadesFaltantes.join(", ")}.`;
 
-  console.log(`${vaga.exibirDetalhes()}
+    console.log(`Análise nº ${contarAnalise()}`);
+
+    console.log(`${vaga.exibirDetalhes()}
   Compatibilidade: ${resultado.percentual}%
   Habilidades Encontradas: ${resultado.habilidadesEncontradas.join(", ")}
   Classificação: ${resultado.classificacao}
-  Para essa vaga faltam as habilidades: ${resultado.habilidadesFaltantes.join(", ")}
+  Para essa vaga faltam as habilidades: ${habilidadesFalta}
   Recomendação de Estudo: ${recomendacao}`);
   }
 
-  callback()
+  callback(candidato, vagas);
 }
 
 function encontrarVaga(candidato, vagas) {
@@ -133,7 +151,9 @@ function encontrarVaga(candidato, vagas) {
   ${melhorVaga.exibirDetalhes()}
   Compatibilidade: ${resultado.percentual}%`);
 
-  console.log(`${candidato.nome}, sua análise foi finalizada. Revise suas habilidades faltantes e atualize seu plano de estudos.`);
+  console.log(
+    `${candidato.nome}, sua análise foi finalizada. Revise suas habilidades faltantes e atualize seu plano de estudos.`,
+  );
 }
 
 function buscarVagas() {
