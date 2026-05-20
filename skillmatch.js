@@ -39,7 +39,7 @@ class VagaFrontEnd extends Vaga {
 const vagas = [
   new VagaFrontEnd(
     1,
-    "TechStart",
+    "Tracking Code",
     "Desenvolvedor Front-End Júnior",
     ["HTML", "CSS", "JavaScript", "Callback", "Async/Await"],
     2800,
@@ -48,7 +48,7 @@ const vagas = [
   ),
   new VagaFrontEnd(
     2,
-    "CodeLab",
+    "Lab Systems",
     "Estágio Front-End",
     ["HTML", "CSS", "JavaScript", "Kanban"],
     1800,
@@ -57,7 +57,7 @@ const vagas = [
   ),
   new VagaFrontEnd(
     3,
-    "WebSolutions",
+    "Digital Solutions",
     "Programador JavaScript Júnior",
     ["JavaScript", "Arrays", "Objetos", "Funções"],
     3000,
@@ -121,8 +121,8 @@ function exibirAnalise(candidato, vagas, callback) {
     );
 
     const recomendacao = atendeTodos
-      ? "Nenhuma habilidade faltante."
-      : `Para aumentar sua compatibilidade com essa vaga, priorize estudar ${resultado.habilidadesFaltantes.join(", ")}.`;
+      ? "Nenhuma habilidade faltante"
+      : `Para aumentar sua compatibilidade com essa vaga, priorize estudar ${resultado.habilidadesFaltantes.join(", ")}`;
 
     console.log(`Análise nº ${contarAnalise()}`);
 
